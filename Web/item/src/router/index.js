@@ -11,8 +11,15 @@ const routes = [
       title: "登录",
     },
   component: () => import("../views/login/Login.vue"),
-
   },
+  {
+    path: '/index',
+    name: 'index',
+    meta: {
+      title: "主页",
+    },
+  component: () => import("../views/frame.vue"),
+  }
 
 ];
 

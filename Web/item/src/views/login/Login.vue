@@ -1,3 +1,4 @@
+import router from '../../router';
 <!--  -->
 <template>
   <div class="login_bg">
@@ -29,7 +30,7 @@
           ></el-input>
         </div>
         <div class="letter">
-          <el-button type="primary" round>登录</el-button>
+          <el-button type="primary" round @click="enterIndex">登录</el-button>
         </div>
         <div class="letter">
           <span>
@@ -67,7 +68,17 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    enterIndex(){
+      this.$router.replace({
+            path:"/index",
+
+      }).catch((err)=>{
+         console.log(err);
+         
+      })        
+    }
+  },
 };
 </script>
 <style lang='less'>
