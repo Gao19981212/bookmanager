@@ -1,9 +1,9 @@
 <!--  -->
 <template>
   <div>
-      <head>
+      <header>
           <nav><Head></Head></nav>
-      </head>
+      </header>
       <aside>
            <Left></Left>
       </aside>

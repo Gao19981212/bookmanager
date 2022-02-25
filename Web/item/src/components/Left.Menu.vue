@@ -1,13 +1,21 @@
 <!--  -->
 <template>
-  <div>
-    <el-menu
+    <div class="big">
+      <div class="logo">Library System</div>
+    <div class="left_div">
+      <div>
+        <el-image :src="urlpic" style="width:48px;height:48px;"></el-image>
+      </div>
+     
+    </div>
+    <div>
+       <el-menu
       :default-active="active"
       class="left_menu"
       background-color="#46485f"
       active-text-color="#dea32c"
       text-color="#fff"
-      unique-opened="true"
+      :unique-opened="true"
       :collapse="isCollapse"
     >
       <el-sub-menu index="1">
@@ -36,15 +44,17 @@
         <el-menu-item index="3-3">到馆记录</el-menu-item>
       </el-sub-menu>
     </el-menu>
+    </div>
+   
   </div>
 </template>
-
 <script>
 export default {
   data() {
     return {
       isCollapse: false,
       active: "",
+      urlpic:require('../assets/img/用户头像-男.png'),
     };
   },
 
@@ -60,16 +70,36 @@ export default {
 };
 </script>
 <style lang='less'>
+.big{
+   position: absolute;
+  top: 0;
+  left: 0;
+    height: 100%;
+     background: #46485f;
+}
 .left_menu {
   width: 200px;
   height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  border-right: 0px;
   .el-sub-menu__title:hover {
     background: #181d4b !important;
     outline: none !important;
     color: #D9FFFF !important;
   }
+}
+.left_div{
+  height: 70px;
+  background: #46485f;
+  border: 0;
+}
+.logo{
+  height: 50px;
+   background: #46485f;
+   border: 0;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 700;
+    line-height: 50px;
 }
 </style>

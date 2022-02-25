@@ -1,13 +1,14 @@
 <!--  -->
 <template>
   <div>
-      
+   
+
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
     };
   },
@@ -16,13 +17,11 @@ export default {
 
   computed: {},
 
-mounted() {
-    
-},
+  mounted() {},
 
-  methods: {}
-}
-
+  methods: {},
+};
 </script>
 <style lang='less'>
+
 </style>
