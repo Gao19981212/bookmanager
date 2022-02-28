@@ -82,11 +82,6 @@ export default {
 };
 </script>
 <style lang='less'>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 .login_bg {
   background: url("../../assets/img/bg.jpeg");
   background-size: cover;

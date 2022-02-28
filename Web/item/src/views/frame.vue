@@ -1,41 +1,39 @@
 <!--  -->
 <template>
   <div>
-      <header>
-          <nav><Head></Head></nav>
-      </header>
+    <header>
+      <nav><Head></Head></nav>
+    </header>
+    <div style="display: flex;">
       <aside>
-           <Left></Left>
+        <Left></Left>
       </aside>
       <article>
-          <router-view></router-view>
+        <router-view style="flex: 1"></router-view>
       </article>
+    </div>
   </div>
 </template>
 
 <script>
-import Head from"../components/HeadMenu.vue";
+import Head from "../components/HeadMenu.vue";
 import Left from "../components/Left.Menu.vue";
 export default {
-  data () {
-    return {
-    };
+  data() {
+    return {};
   },
 
   components: {
-      Head,
-      Left,
+    Head,
+    Left,
   },
 
   computed: {},
 
-  mounted() {
-      
-  },
+  mounted() {},
 
-  methods: {}
-}
-
+  methods: {},
+};
 </script>
 <style lang='less'>
 </style>

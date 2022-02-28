@@ -18,7 +18,13 @@ const routes = [
     meta: {
       title: "主页",
     },
-  component: () => import("../views/frame.vue"),
+    component: () => import("../views/frame.vue"),
+    children: [{
+      path: '/index',
+      name: "home",
+      component:()=>import("../views/Home.vue")
+    },
+    ]
   }
 
 ];

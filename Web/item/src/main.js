@@ -5,6 +5,7 @@ import store from "./store";
 import ElementPlus from "element-plus";
 import 'element-plus/dist/index.css';
 import * as ElIconModules from '@element-plus/icons'
+import "../src/assets/css/common.css";
 const app = createApp(App)
 // 统一注册el-icon图标
 for (let iconName in ElIconModules) {
