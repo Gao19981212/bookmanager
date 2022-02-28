@@ -1,12 +1,11 @@
 <!--  -->
 <template>
-    <div class="big">
-      <div class="logo">Library System</div>
+  <div class="big">
+    <div class="logo">Library System</div>
     <div class="left_div">
       <div>
         <el-image :src="urlpic" style="width:48px;height:48px;"></el-image>
-      </div>
-     
+      </div>   
     </div>
     <div>
        <el-menu
@@ -57,49 +56,52 @@ export default {
       urlpic:require('../assets/img/用户头像-男.png'),
     };
   },
+    components: {},
 
-  components: {},
+    computed: {},
 
-  computed: {},
+    mounted() {
+      //  this.active= this.$route.name;
+    },
 
-  mounted() {
-    //  this.active= this.$route.name;
-  },
-
-  methods: {},
-};
+    methods: {},
+  };
 </script>
 <style lang='less'>
-.big{
-   position: absolute;
-  top: 0;
-  left: 0;
+  .big {
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 100%;
-     background: #46485f;
-}
-.left_menu {
-  width: 200px;
-  height: 100%;
-  border-right: 0px;
-  .el-sub-menu__title:hover {
-    background: #181d4b !important;
-    outline: none !important;
-    color: #D9FFFF !important;
+    background: #46485f;
   }
-}
-.left_div{
-  height: 70px;
-  background: #46485f;
-  border: 0;
-}
-.logo{
-  height: 50px;
-   background: #46485f;
-   border: 0;
+
+  .left_menu {
+    width: 200px;
+    height: 100%;
+    border-right: 0px;
+
+    .el-sub-menu__title:hover {
+      background: #181d4b !important;
+      outline: none !important;
+      color: #D9FFFF !important;
+    }
+  }
+
+  .left_div {
+    height: 70px;
+    background: #46485f;
+    border: 0;
+  }
+
+  .logo {
+    height: 50px;
+    background: #46485f;
+    border: 0;
     color: #fff;
     font-size: 18px;
     text-align: center;
     font-weight: 700;
     line-height: 50px;
-}
+  }
 </style>
