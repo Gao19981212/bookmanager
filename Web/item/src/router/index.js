@@ -24,6 +24,11 @@ const routes = [
       name: "home",
       component:()=>import("../views/Home.vue")
     },
+    {
+      path: '/read',
+      name: "1-3",
+      component:()=>import("../views/manager/Read.vue")
+    },
     ]
   }
 

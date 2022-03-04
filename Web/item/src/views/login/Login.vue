@@ -5,18 +5,18 @@ import router from '../../router';
     <div class="login_div">
       <div class="login_content">
         <div class="login_font letter">
-          <span>登录</span
-          ><el-image
+          <span>登录</span>
+          <!-- <el-image
             :src="require('../../assets/img/图书.png')"
             fit="cover"
-          ></el-image>
+          ></el-image> -->
         </div>
         <div class="letter">
           <el-input
             v-model="Sno"
             placeholder="请输入学号"
             clearable
-            prefix-icon="Avatar"         
+            prefix-icon="Avatar"
             type="text"
           />
         </div>
@@ -24,10 +24,21 @@ import router from '../../router';
           <el-input
             v-model="pwd"
             prefix-icon="Lock"
-            placeholder="请输入密码"         
+            placeholder="请输入密码"
             show-password
             type="password"
           ></el-input>
+        </div>
+        <div class="letter">
+          <el-select
+            v-model="select_user"
+            class="m-2"
+            placeholder="请选择类型"
+            size="default"
+          >
+            <el-option label="管理员" value="1"></el-option>
+            <el-option label="读者" value="2"></el-option>
+          </el-select>
         </div>
         <div class="letter">
           <el-button type="primary" round @click="enterIndex">登录</el-button>
@@ -35,12 +46,13 @@ import router from '../../router';
         <div class="letter">
           <span>
             <el-checkbox
-              v-model="login_check"
               label="记住我"
-              size="large"
               border
-            ></el-checkbox
-          ></span>
+              v-model="login_check"
+              :checked="login_check"
+              size="large"
+            ></el-checkbox>
+          </span>
           <div class="a_btn">
             <span>忘记密码</span>
             <span>|</span>
@@ -58,7 +70,9 @@ export default {
     return {
       Sno: "",
       pwd: "",
+      form: {},
       login_check: false,
+      select_user: "",
     };
   },
 
@@ -67,17 +81,60 @@ export default {
   computed: {},
 
   mounted() {},
-
+  created() {
+    this.load();
+  },
   methods: {
-    enterIndex(){
-      this.$router.replace({
-            path:"/index",
-
-      }).catch((err)=>{
-         console.log(err);
-         
-      })        
-    }
+    remember() {
+      if (this.login_check == true) {
+        localStorage.setItem("name", this.Sno);
+        localStorage.setItem("pwd", this.pwd);
+        localStorage.setItem("checklogin", this.login_check);
+        localStorage.setItem("select_user", this.select_user);
+      } else {
+        localStorage.removeItem("name");
+        localStorage.removeItem("pwd");
+        localStorage.removeItem("checklogin");
+        localStorage.removeItem("select_user");
+      }
+    },
+    load() {
+      this.login_check = localStorage.getItem("checklogin");
+      this.Sno = localStorage.getItem("name");
+      this.pwd = localStorage.getItem("pwd");
+      this.select_user = localStorage.getItem("select_user");
+    },
+    enterIndex() {
+      const params = {
+        name: this.Sno,
+        password: this.pwd,
+        type: Number(this.select_user),
+      };
+      this.$axios({
+        method: "post",
+        url: "/api/user/login",
+        contentType: "application/json;charset=UTF-8",
+        data: params,
+      })
+        .then((res) => {
+          if (res.data.code == "0") {
+            this.$message.success("登录成功");
+            this.remember();
+            this.$router
+              .replace({
+                path: "/index",
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else {
+            this.$message.error(res.data.msg);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>

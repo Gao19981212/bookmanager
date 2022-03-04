@@ -1,9 +1,10 @@
+import router from '../router';
 <!--  -->
 <template>
   <div class="head_menu">
     <div class="logo">Library System</div>
     <div class="menu_icon">
-      <el-icon color="#fff" :size="32"><fold/></el-icon>
+      <el-icon color="#fff" :size="32"><fold /></el-icon>
     </div>
     <div style="flex: 1"></div>
     <div class="mess_info">
@@ -17,7 +18,9 @@
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>个人中心</el-dropdown-item>
-            <el-dropdown-item divided>退出系统</el-dropdown-item>
+            <el-dropdown-item divided @click="backLogin"
+              >退出系统</el-dropdown-item
+            >
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -37,7 +40,21 @@ export default {
 
   mounted() {},
 
-  methods: {},
+  methods: {
+    backLogin() {
+      localStorage.removeItem("name");
+      localStorage.removeItem("pwd");
+      localStorage.removeItem("checklogin")
+       localStorage.removeItem("select_user")
+      this.$router
+        .replace({
+          path: "/login",
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 };
 </script>
 <style lang='less'>
@@ -63,11 +80,11 @@ export default {
     color: #fff;
   }
 }
-.menu_icon{
-   display: flex;
-   align-items: center;
- .el-icon{
-   cursor: pointer;
- }
+.menu_icon {
+  display: flex;
+  align-items: center;
+  .el-icon {
+    cursor: pointer;
+  }
 }
 </style>

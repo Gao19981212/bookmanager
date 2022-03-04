@@ -16,7 +16,7 @@
       </template>
       <el-menu-item index="1-1">类别管理</el-menu-item>
       <el-menu-item index="1-2">部门管理</el-menu-item>
-      <el-menu-item index="1-3">读者管理</el-menu-item>
+      <el-menu-item index="1-3" @click="enterRead">读者管理</el-menu-item>
     </el-sub-menu>
     <el-sub-menu index="2">
       <template #title>
@@ -50,10 +50,24 @@ export default {
   computed: {},
 
   mounted() {
-    //  this.active= this.$route.name;
+   this.active=this.$route.name;
   },
 
-  methods: {},
+  methods: {
+     enterRead(){
+      this.$router.replace({
+            path:"/read",
+            query: {
+              current:1,
+             pagesize:10
+            }
+
+      }).catch((err)=>{
+         console.log(err);
+         
+      })    
+    }
+  },
 };
 </script>
 <style lang='less'>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.back_code.mapper.UserMapper">
+   <resultMap id="userMap" type="com.example.back_code.entity.User">
+       <result property="id" column="id"></result>
+       <result property="name" column="name"></result>
+       <result property="password" column="password"></result>
+       <result property="nick" column="nick"></result>
+       <result property="age" column="age"></result>
+       <result property="tel" column="tel"></result>
+       <result property="sex" column="sex"></result>
+       <result property="type" column="type"></result>
+       <collection property="user_types" javaType="String" ofType="com.example.back_code.entity.User_Type">
+           <result property="id" column="id"></result>
+           <result property="type_name" column="type_name"></result>
+       </collection>
+
+   </resultMap>
+    <select id="finpage" resultMap="userMap">
+        SELECT *
+        FROM
+            `user`  LEFT JOIN user_type ON `user`.type=user_type.id where 1=1 <if test="search!=null and search!=''">and user.nick like concat('%',#{search },'%')</if>
+    </select>
+</mapper>

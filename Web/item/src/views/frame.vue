@@ -5,12 +5,10 @@
       <nav><Head></Head></nav>
     </header>
     <div style="display: flex;">
-      <aside>
+      <aside style="width:200px;">
         <Left></Left>
-      </aside>
-      <article>
-        <router-view style="flex: 1"></router-view>
-      </article>
+      </aside>    
+        <router-view style="flex: 1"></router-view>    
     </div>
   </div>
 </template>
