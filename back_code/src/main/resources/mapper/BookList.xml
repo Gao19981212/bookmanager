@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.back_code.mapper.BookMapper">
+
+    <!-- 数据表列字段与pojo类属性映射关系 type:指定将查询的结果封装到哪个类pojo对象中 id:指定一个唯一表示resultMap的值 -->
+    <resultMap type="com.example.back_code.entity.BookList" id="booklistmapper">
+        <id column="book_id" property="bookId"/>
+        <result column="barcode" property="barcode"/>
+        <result column="book_num" property="bookNum"/>
+        <result column="book_title" property="bookTitle"/>
+        <result column="book_author" property="bookAuthor"/>
+        <result column="book_publisher" property="bookPublisher"/>
+        <result column="book_price" property="bookPrice"/>
+        <result column="book_shelf" property="bookShelf"/>
+        <result column="book_isbn" property="bookIsbn"/>
+        <result column="book_year" property="bookYear"/>
+        <result column="book_place" property="bookPlace"/>
+        <result column="book_type" property="bookType"/>
+        <result column="user_id" property="userId"/>
+        <result column="status_id" property="statusId"/>
+        <collection property="bke" ofType="com.example.back_code.entity.bookstype" javaType="String">
+            <result column="id" property="id"/>
+            <result column="Typename" property="Typename"/>
+        </collection>
+        <collection property="sts" ofType="com.example.back_code.entity.status" javaType="String">
+            <result column="status_id" property="statusId"/>
+            <result column="statusname" property="statusname"/>
+        </collection>
+<!--        <collection property="user" ofType="com.example.back_code.entity.User" javaType="String">-->
+<!--            <result property="name" column="name"></result>-->
+<!--            <result property="nick" column="nick"></result>-->
+<!--        </collection>-->
+    </resultMap>
+
+    <!-- 1.查询所有员工信息 id值为对应接口中方法的名字 resultMap:指定为resultMap标签的id值 -->
+    <select id="finpage" resultMap="booklistmapper">
+        SELECT * FROM booklist bk,`status` st,bookstype be WHERE bk.status_id=st.status_id AND bk.book_type=be.id
+        <if test="searchtype=='条码号'">AND bk.barcode like concat('%',#{search},'%')</if>
+        <if test="searchtype=='书名'">AND bk.book_title like concat('%',#{search},'%')</if>
+        <if test="searchtype=='作者'">AND bk.book_author like concat('%',#{search},'%')</if>
+        <if test="status!=999">AND bk.status_id = #{status}</if>
+        <if test="booktype!=999">AND bk.book_type = #{booktype}</if>
+    </select>
+
+</mapper>

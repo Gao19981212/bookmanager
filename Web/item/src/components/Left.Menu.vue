@@ -23,7 +23,7 @@
         <el-icon><reading /></el-icon>
         <span>典藏管理</span>
       </template>
-      <el-menu-item index="2-1">图书管理</el-menu-item>
+      <el-menu-item index="2-1" @click="enterbook">图书管理</el-menu-item>
     </el-sub-menu>
     <el-sub-menu index="3">
       <template #title>
@@ -50,23 +50,36 @@ export default {
   computed: {},
 
   mounted() {
-   this.active=this.$route.name;
+    this.active = this.$route.name;
   },
 
   methods: {
-     enterRead(){
-      this.$router.replace({
-            path:"/read",
-            query: {
-              current:1,
-             pagesize:10
-            }
-
-      }).catch((err)=>{
-         console.log(err);
-         
-      })    
-    }
+    enterbook() {
+      this.$router
+        .replace({
+          path: "/books",
+          query: {
+            current: 1,
+            pagesize: 10,
+          },
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    enterRead() {
+      this.$router
+        .replace({
+          path: "/read",
+          query: {
+            current: 1,
+            pagesize: 10,
+          },
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
 };
 </script>

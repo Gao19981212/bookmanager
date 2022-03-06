@@ -10,7 +10,7 @@ const routes = [
     meta: {
       title: "登录",
     },
-  component: () => import("../views/login/Login.vue"),
+    component: () => import("../views/login/Login.vue"),
   },
   {
     path: '/index',
@@ -22,12 +22,17 @@ const routes = [
     children: [{
       path: '/index',
       name: "home",
-      component:()=>import("../views/Home.vue")
+      component: () => import("../views/Home.vue")
     },
     {
       path: '/read',
       name: "1-3",
-      component:()=>import("../views/manager/Read.vue")
+      component: () => import("../views/manager/Read.vue")
+    },
+    {
+      path: '/books',
+      name: "2-1",
+      component: () => import("../views/collectbook/bookmanager.vue")
     },
     ]
   }

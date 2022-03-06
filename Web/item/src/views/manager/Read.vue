@@ -1,24 +1,32 @@
 <!--  -->
 <template>
-  <div class="user_div">
-    <div>
-      <el-button type="primary" @click="add()">新增</el-button>
-    </div>
-    <div class="user_add">
-      <div>
-        <el-input
-          v-model="searchtxt"
-          placeholder="请输入查询的用户名"
-          style="width: 300px"
-        />
+  <div>
+    <div class="user_div">
+      <div class="add_div">
+        <el-button type="primary" @click="add()">新增</el-button>
       </div>
-      <div>
-        <el-button type="primary" style="margin-left: 15px" @click="load"
-          >查询</el-button
-        >
+      <div class="user_add">
+        <div>
+          <el-input
+            v-model="searchtxt"
+            placeholder="请输入查询的用户名"
+            style="width: 300px"
+          />
+        </div>
+        <div>
+          <el-button type="primary" style="margin-left: 15px" @click="load"
+            >查询</el-button
+          >
+        </div>
       </div>
     </div>
-    <el-table :data="tableData" stripe border>
+    <el-table
+      :data="tableData"
+      stripe
+      border
+      style="width: 98%; margin: 0 auto"
+      :header-cell-style="{ background: '#F0F8FF', color: '#1E90FF' }"
+    >
       <el-table-column prop="key" label="序号" />
       <el-table-column prop="name" label="用户名" />
       <el-table-column prop="password" label="密码" />
@@ -27,22 +35,24 @@
       <el-table-column prop="sex" label="性别" />
       <el-table-column prop="user_types.type_name" label="类型">
       </el-table-column>
-      <el-table-column fixed="right" label="操作">
+      <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
           <el-button
             type="primary"
             @click="update(scope.row)"
+            :icon="Edit"
+            circle
             style="background: #426ab3"
           >
-            编辑
           </el-button>
-          <el-popconfirm title="确实删除?" @confirm="del(scope.row.id)">
+          <el-popconfirm title="确定删除?" @confirm="del(scope.row.id)">
             <template #reference>
               <el-button
                 type="danger"
                 style="background: #d64f44; margin-left: 15px"
-                >删除</el-button
-              >
+                :icon="Delete"
+                circle
+              ></el-button>
             </template>
           </el-popconfirm>
         </template>
@@ -105,12 +115,16 @@
   </div>
 </template>
 <script>
+import { Edit, Delete } from "@element-plus/icons-vue";
+import { markRaw } from "vue";
 export default {
   data() {
     return {
       tableData: [],
       layoutwidth: 0,
       searchtxt: "",
+      Edit,
+      Delete,
       current: 0,
       pagesize: 0,
       total: 0,
@@ -120,7 +134,10 @@ export default {
     };
   },
 
-  components: {},
+  components: {
+    Edit: markRaw(Edit),
+    Delete: markRaw(Delete),
+  },
 
   computed: {},
   created() {
@@ -193,10 +210,9 @@ export default {
         method: "delete",
         url: "/api/user/del/" + id,
         contentType: "application/json;charset=UTF-8",
-        data: this.form,
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.data.code == "0") {
             this.load();
             this.$message.success("删除成功！");
@@ -252,12 +268,25 @@ export default {
 </script>
 <style lang='less'>
 .user_div {
-  width: 100%;
-  padding: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  .add_div {
+    margin: 15px 0px 15px 1%;
+    button {
+      background: #778899;
+      border-color: #778899;
+    }
+  }
   .user_add {
     display: flex;
     flex-flow: row nowrap;
-    margin: 10px 0px;
+    margin-left: 1%;
+    margin-bottom: 15px;
+    button {
+      background: #6495ed;
+      border-color: #6495ed;
+    }
+    // margin: 10px 0px;
   }
 }
 .Read_page {

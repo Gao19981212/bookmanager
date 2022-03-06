@@ -1,11 +1,11 @@
-import router from '../../router';
+
 <!--  -->
 <template>
   <div class="login_bg">
     <div class="login_div">
       <div class="login_content">
         <div class="login_font letter">
-          <span>登录</span>
+          <span>欢迎登录</span>
           <!-- <el-image
             :src="require('../../assets/img/图书.png')"
             fit="cover"
