@@ -44,6 +44,9 @@ public class Usercontroller {
         User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getName, user.getName()));
         if (res == null
         ) {
+            if (user.getPassword()==null||user.getPassword()==""){
+                user.setPassword("123456");
+            }
             userMapper.insert(user);
             return Result.success();
         }

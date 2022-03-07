@@ -13,6 +13,14 @@ const routes = [
     component: () => import("../views/login/Login.vue"),
   },
   {
+    path: '/register',
+    name: 'register',
+    meta: {
+      title: "注册",
+    },
+    component: () => import("../views/login/register.vue"),
+  },
+  {
     path: '/index',
     name: 'index',
     meta: {
@@ -27,11 +35,17 @@ const routes = [
     {
       path: '/read',
       name: "1-3",
+      meta: {
+        title: "读者管理",
+      },
       component: () => import("../views/manager/Read.vue")
     },
     {
       path: '/books',
       name: "2-1",
+      meta: {
+        title: "图书管理",
+      },
       component: () => import("../views/collectbook/bookmanager.vue")
     },
     ]

@@ -1,48 +1,47 @@
+import { rules } from '../../../.eslintrc';
 
 <!--  -->
 <template>
   <div class="login_bg">
     <div class="login_div">
       <div class="login_content">
-        <div class="login_font letter">
+        <div class="login_font">
           <span>欢迎登录</span>
-          <!-- <el-image
-            :src="require('../../assets/img/图书.png')"
-            fit="cover"
-          ></el-image> -->
         </div>
-        <div class="letter">
-          <el-input
-            v-model="Sno"
-            placeholder="请输入学号"
-            clearable
-            prefix-icon="Avatar"
-            type="text"
-          />
-        </div>
-        <div class="letter">
-          <el-input
-            v-model="pwd"
-            prefix-icon="Lock"
-            placeholder="请输入密码"
-            show-password
-            type="password"
-          ></el-input>
-        </div>
-        <div class="letter">
-          <el-select
-            v-model="select_user"
-            class="m-2"
-            placeholder="请选择类型"
-            size="default"
-          >
-            <el-option label="管理员" value="1"></el-option>
-            <el-option label="读者" value="2"></el-option>
-          </el-select>
-        </div>
-        <div class="letter">
-          <el-button type="primary" round @click="enterIndex">登录</el-button>
-        </div>
+        <el-form :model="form" :rules="rules" ref="form">
+          <el-form-item label="" prop="name">
+            <el-input
+              v-model="form.name"
+              placeholder="请输入学号"
+              clearable
+              prefix-icon="Avatar"
+              type="text"
+            />
+          </el-form-item>
+          <el-form-item label="" prop="password">
+            <el-input
+              v-model="form.password"
+              prefix-icon="Lock"
+              placeholder="请输入密码"
+              show-password
+              type="password"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="" prop="type">
+            <el-select
+              v-model="form.type"
+              class="m-2"
+              placeholder="请选择类型"
+              size="default"
+            >
+              <el-option label="管理员" :value="1"></el-option>
+              <el-option label="读者" :value="2"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="">
+            <el-button type="primary" round @click="enterIndex">登录</el-button>
+          </el-form-item>
+        </el-form>
         <div class="letter">
           <span>
             <el-checkbox
@@ -56,7 +55,7 @@
           <div class="a_btn">
             <span>忘记密码</span>
             <span>|</span>
-            <span>新用户注册</span>
+            <span @click="register()">新用户注册</span>
           </div>
         </div>
       </div>
@@ -68,11 +67,31 @@
 export default {
   data() {
     return {
-      Sno: "",
-      pwd: "",
       form: {},
       login_check: false,
-      select_user: "",
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "用户名不能为空！",
+            trigger: "blur",
+          },
+        ],
+        password: [
+          {
+            required: true,
+            message: "密码不能为空！",
+            trigger: "blur",
+          },
+        ],
+        type: [
+          {
+            required: true,
+            message: "用户类型不能为空！",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
 
@@ -85,12 +104,17 @@ export default {
     this.load();
   },
   methods: {
+    register() {
+      this.$router.push({
+        path: "/register",
+      });
+    },
     remember() {
       if (this.login_check == true) {
-        localStorage.setItem("name", this.Sno);
-        localStorage.setItem("pwd", this.pwd);
+        localStorage.setItem("name", this.form.name);
+        localStorage.setItem("pwd", this.form.password);
         localStorage.setItem("checklogin", this.login_check);
-        localStorage.setItem("select_user", this.select_user);
+        localStorage.setItem("select_user", this.form.type);
       } else {
         localStorage.removeItem("name");
         localStorage.removeItem("pwd");
@@ -100,40 +124,39 @@ export default {
     },
     load() {
       this.login_check = localStorage.getItem("checklogin");
-      this.Sno = localStorage.getItem("name");
-      this.pwd = localStorage.getItem("pwd");
-      this.select_user = localStorage.getItem("select_user");
+      this.form.name = localStorage.getItem("name");
+      this.form.password = localStorage.getItem("pwd");
+      this.form.type = localStorage.getItem("select_user");
     },
     enterIndex() {
-      const params = {
-        name: this.Sno,
-        password: this.pwd,
-        type: Number(this.select_user),
-      };
-      this.$axios({
-        method: "post",
-        url: "/api/user/login",
-        contentType: "application/json;charset=UTF-8",
-        data: params,
-      })
-        .then((res) => {
-          if (res.data.code == "0") {
-            this.$message.success("登录成功");
-            this.remember();
-            this.$router
-              .replace({
-                path: "/index",
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          } else {
-            this.$message.error(res.data.msg);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          this.$axios({
+            method: "post",
+            url: "/api/user/login",
+            contentType: "application/json;charset=UTF-8",
+            data: this.form,
+          })
+            .then((res) => {
+              if (res.data.code == "0") {
+                this.$message.success("登录成功");
+                this.remember();
+                this.$router
+                  .replace({
+                    path: "/index",
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              } else {
+                this.$message.error(res.data.msg);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
     },
   },
 };
@@ -162,7 +185,8 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding-top: 80px;
+  justify-content: center;
+  height: 480px;
   .el-input__inner {
     width: 350px;
   }
@@ -173,13 +197,14 @@ export default {
     color: #555;
   }
   .letter {
-    margin-top: 25px;
+    margin-bottom: 25px;
   }
   button {
     width: 350px;
   }
 }
 .login_font {
+  margin-bottom: 30px;
   span {
     font-weight: 700;
     color: #545454;
