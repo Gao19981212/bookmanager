@@ -39,10 +39,11 @@ import { rules } from '../../../.eslintrc';
               autocomplete="off"
             ></el-input>
           </el-form-item>
+
+          <el-form-item label="">
+            <el-button type="primary" round @click="enterLogin">注册</el-button>
+          </el-form-item>
         </el-form>
-        <div>
-          <el-button type="primary" round @click="enterLogin">注册</el-button>
-        </div>
       </div>
     </div>
   </div>
@@ -51,13 +52,16 @@ import { rules } from '../../../.eslintrc';
 <script>
 export default {
   data() {
-    // 此处自定义校验手机号码js逻辑 
+    // 此处自定义校验手机号码js逻辑
     var vailpwd = (rule, value, callback) => {
-      if (value!=this.form.password) {
-        return callback(new Error("两次密码输入不一致"))
-      }     
-    }
-    return {     
+      if (value != this.form.password) {
+        return callback(new Error("两次密码输入不一致"));
+      }
+      else{
+       callback();
+      }
+    };
+    return {
       rules: {
         name: [
           {
@@ -68,7 +72,7 @@ export default {
           {
             min: 3,
             max: 8,
-            message:"长度为3到8位"
+            message: "长度为3到8位",
           },
         ],
         password: [
@@ -85,9 +89,10 @@ export default {
           //   trigger: "blur",
           // },
           {
-           validator: vailpwd,
-            trigger: "blur"
-          }
+            required: true,
+            validator: vailpwd,
+            trigger: "blur",
+          },
         ],
       },
       form: {},
@@ -101,7 +106,7 @@ export default {
   mounted() {},
   created() {},
   methods: {
-    enterLogin() {
+    enterLogin() {       
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.$axios({

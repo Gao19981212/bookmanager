@@ -3,3 +3,20 @@
     padding: 0;
     box-sizing: border-box;
 }
+  .el-input__inner:focus {
+    border-color: #adadad;
+  }
+  .el-textarea__inner:focus{
+    border-color: #adadad;
+  }
+  .cell-item {
+    display: flex;
+    align-items: center;
+  }
+  .book_page {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    /* margin-top: 20px; */
+  }

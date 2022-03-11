@@ -17,10 +17,12 @@
            <result property="type_name" column="type_name"></result>
        </collection>
    </resultMap>
+
     <select id="finpage" resultMap="userMap">
         SELECT *
         FROM
         `user` LEFT JOIN user_type ON `user`.type=user_type.id where 1=1
         <if test="search!=null and search!=''">and user.nick like concat('%',#{search },'%')</if>
     </select>
+
 </mapper>

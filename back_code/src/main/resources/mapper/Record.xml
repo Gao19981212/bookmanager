@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.back_code.mapper.RecordMapper">
+    <resultMap id="RecordMap" type="com.example.back_code.entity.Record">
+        <result property="id" column="id"></result>
+        <result property="name" column="name"></result>
+        <result property="nick" column="nick"></result>
+        <result property="tel" column="tel"></result>
+        <result property="sex" column="sex"></result>
+        <result column="barcode" property="barcode"/>
+        <result column="book_title" property="bookTitle"/>
+        <result column="book_author" property="bookAuthor"/>
+        <result column="lend_time" property="lendTime"/>
+        <result column="back_time" property="backTime"/>
+        <result column="record_state" property="recordState"></result>
+    </resultMap>
+    <select id="querypage" resultMap="RecordMap">
+        SELECT * FROM record re
+        <if test="radio=='未还'">WHERE re.record_state=1</if>
+        <if test="radio=='已还'">WHERE re.record_state=2</if>
+        <if test="searchtype=='学号'">WHERE re.name like concat('%',#{search },'%')</if>
+        <if test="searchtype=='条码号'">WHERE re.barcode like concat('%',#{search },'%')</if>
+        <if test="searchtype=='书名'">WHERE re.book_title like concat('%',#{search },'%')</if>
+        <if test="searchtype=='姓名'">WHERE re.nick like concat('%',#{search },'%')</if>
+    </select>
+</mapper>

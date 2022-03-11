@@ -13,6 +13,14 @@ const routes = [
     component: () => import("../views/login/Login.vue"),
   },
   {
+    path: '/searbook',
+    name: 'searbook',
+    meta: {
+      title: "检索图书",
+    },
+    component: () => import("../views/Readpage/Search.vue"),
+  },
+  {
     path: '/register',
     name: 'register',
     meta: {
@@ -47,7 +55,31 @@ const routes = [
         title: "图书管理",
       },
       component: () => import("../views/collectbook/bookmanager.vue")
-    },
+      },
+      {
+        path: '/bbw',
+        name: "3-1",
+        meta: {
+          title: "图书借阅",
+        },
+        component: () => import("../views/cirmanager/Bookborrowing.vue")
+      },
+      {
+        path: '/brn',
+        name: "3-2",
+        meta: {
+          title: "图书归还",
+        },
+        component: () => import("../views/cirmanager/Bookreturn.vue")
+      },
+      {
+        path: '/crd',
+        name: "3-3",
+        meta: {
+          title: "查询记录",
+        },
+        component: () => import("../views/cirmanager/Circulationrecord.vue")
+      },
     ]
   }
 

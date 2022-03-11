@@ -24,10 +24,17 @@ public class BookList {
     private int bookType;//图书类型
     private int userId;//读者绑定
     private int statusId;//状态绑定
+    private String bookPic;//书籍图片
+    private  int countVisit;//访问次数
+    private  String bookContent;//简介
     @TableField(exist = false)
     private User user;
     @TableField(exist = false)
     private status sts;
     @TableField(exist = false)
     private bookstype bke;
+    @TableField(exist = false)
+    private User_Type user_types;
+    @TableField(exist = false)
+    private  Record record;
 }

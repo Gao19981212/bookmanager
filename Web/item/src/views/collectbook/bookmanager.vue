@@ -78,12 +78,22 @@
       :header-cell-style="{ background: '#F0F8FF', color: '#1E90FF' }"
     >
       <el-table-column label="序号" prop="key" fixed="left"></el-table-column>
+      <el-table-column label="封面">
+        <template #default="scope">
+          <el-image
+            fit="cover"
+            :src="imgurl(scope.row.bookPic)"
+            style="width: 50px; height: 50px"
+          ></el-image>
+        </template>
+      </el-table-column>
       <el-table-column label="条码" prop="barcode"></el-table-column>
       <el-table-column label="书名" prop="bookTitle"></el-table-column>
       <el-table-column label="作者" prop="bookAuthor"></el-table-column>
       <el-table-column label="定价" prop="bookPrice"></el-table-column>
       <el-table-column label="ISBN" prop="bookIsbn"></el-table-column>
       <el-table-column label="索书号" prop="bookNum"></el-table-column>
+      <el-table-column label="出版地" prop="bookPlace"></el-table-column>
       <el-table-column label="出版社" prop="bookPublisher"></el-table-column>
       <el-table-column label="出版年" prop="bookYear"></el-table-column>
       <el-table-column label="架位号" prop="bookShelf"></el-table-column>
@@ -220,6 +230,40 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="上传封面:">
+                <el-upload
+                  class="avatar-uploader"
+                  action="http://localhost:9090/files/upload"
+                  method="post"
+                  ref="up_load"
+                  show-file-list
+                  :multiple="false"
+                  :limit="1"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :on-error="error"
+                >
+                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+                  <el-icon v-else class="avatar-uploader-icon"
+                    ><plus
+                  /></el-icon>
+                </el-upload>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="简介">
+                <el-input
+                  v-model="form.bookContent"
+                  placeholder="请输入简介内容"
+                  show-word-limit
+                  type="textarea"
+                  class="areatxt"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
       </div>
       <template #footer>
@@ -240,7 +284,7 @@ export default {
     return {
       data: [],
       searchtxt: "",
-      select: "",
+      select: "全部",
       Search,
       Edit,
       Delete,
@@ -254,6 +298,7 @@ export default {
       current: 0,
       pagesize: 0,
       total: 0,
+      imageUrl: "",
     };
   },
 
@@ -262,20 +307,41 @@ export default {
     Edit: markRaw(Edit),
     Delete: markRaw(Delete),
   },
-
-  computed: {},
   created() {
     this.getrouter();
     this.pagedata();
     this.showtype();
     this.showstatus();
   },
-  mounted() {},
-
+  computed: {},
   methods: {
+    imgurl(val) {   
+      return val;
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt5M = file.size / 1024 / 1024 < 5;
+      if (!isJPG) {
+        this.$message.error("上传的格式不正确！");
+      }
+      if (!isLt5M) {
+        this.$message.error("上传的图片不能超过5M");
+      }
+      return isJPG && isLt5M;
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw);
+      this.form.bookPic = res.data;
+      this.$refs['up_load'].clearFiles();
+      this.pagedata();
+    },
+    error(error) {
+      console.log(error);
+    },
     update(row) {
       this.form = row;
       this.title = "编辑";
+      this.imageUrl=row.bookPic;
       this.dialogVisible = true;
     },
     del(id) {
@@ -367,6 +433,7 @@ export default {
     },
     add() {
       this.form = {};
+     this.imageUrl="";
       this.dialogVisible = true;
     },
     updatemethods() {
@@ -402,6 +469,7 @@ export default {
           if (res.data.code == "0") {
             this.pagedata();
             this.form = {};
+            this.imageUrl="";
             this.dialogVisible = false;
             this.$message.success("新增成功！");
           } else {
@@ -442,16 +510,39 @@ export default {
     }
   }
 }
-.book_page {
-  width: 700px;
-  margin: 0 auto;
-  margin-top: 20px;
-}
+
 .book_add {
   margin: 1%;
   button {
     background: #778899;
     border-color: #778899;
+  }
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+.areatxt {
+  .el-textarea__inner {
+    min-height: 178px !important;
   }
 }
 </style>

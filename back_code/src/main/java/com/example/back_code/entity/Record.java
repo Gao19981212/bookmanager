@@ -1,30 +1,27 @@
 package com.example.back_code.entity;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-@TableName("user")
+import java.time.LocalDateTime;
+
+@TableName("record")
 @Data
-public class User {
+public class Record {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-    @JsonProperty(value = "name")
     private String name;
-    @JsonProperty(value = "password")
-    private String password;
     private String nick;
-    private Integer age;
     private String tel;
     private String sex;
-    private Integer type;
-    @TableField(exist = false)
-    private User_Type user_types;
-    @TableField(exist = false)
-    private BookList bookList;
-    @TableField(exist = false)
-    private bookstype bookstype;
+    private String barcode;//条码
+    private String bookTitle;//书名
+    private String bookAuthor;//作者
+    private LocalDateTime lendTime;
+    private LocalDateTime backTime;
+    private int recordState;
 }

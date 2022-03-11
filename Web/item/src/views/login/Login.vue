@@ -123,10 +123,12 @@ export default {
       }
     },
     load() {
-      this.login_check = localStorage.getItem("checklogin");
+      this.login_check = Boolean(localStorage.getItem("checklogin"));
       this.form.name = localStorage.getItem("name");
       this.form.password = localStorage.getItem("pwd");
-      this.form.type = localStorage.getItem("select_user");
+      if (localStorage.getItem("select_user") != null) {
+        this.form.type = Number(localStorage.getItem("select_user"));
+      }
     },
     enterIndex() {
       this.$refs["form"].validate((valid) => {
@@ -139,15 +141,31 @@ export default {
           })
             .then((res) => {
               if (res.data.code == "0") {
+                sessionStorage.setItem("nick", res.data.data.nick);
+
                 this.$message.success("登录成功");
                 this.remember();
-                this.$router
-                  .replace({
-                    path: "/index",
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
+                if (this.form.type == 1) {
+                  this.$router
+                    .replace({
+                      path: "/index",
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                } else {
+                  this.$router
+                    .replace({
+                      path: "/searbook",
+                      query: {
+                        current: 1,
+                        pagesize: 10,
+                      },
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }
               } else {
                 this.$message.error(res.data.msg);
               }

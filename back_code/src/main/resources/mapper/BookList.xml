@@ -3,9 +3,51 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.back_code.mapper.BookMapper">
-
-    <!-- 数据表列字段与pojo类属性映射关系 type:指定将查询的结果封装到哪个类pojo对象中 id:指定一个唯一表示resultMap的值 -->
+<!--    图书管理多条件查询-->
     <resultMap type="com.example.back_code.entity.BookList" id="booklistmapper">
+        <id column="book_id" property="bookId"/>
+        <result column="barcode" property="barcode"/>
+        <result column="book_num" property="bookNum"/>
+        <result column="book_title" property="bookTitle"/>
+        <result column="book_author" property="bookAuthor"/>
+        <result column="book_publisher" property="bookPublisher"/>
+        <result column="book_price" property="bookPrice"/>
+        <result column="book_shelf" property="bookShelf"/>
+        <result column="book_content" property="bookContent"></result>
+        <result column="book_isbn" property="bookIsbn"/>
+        <result column="book_year" property="bookYear"/>
+        <result column="book_place" property="bookPlace"/>
+        <result column="book_type" property="bookType"/>
+        <result column="book_pic" property="bookPic"/>
+        <result column="user_id" property="userId"/>
+        <result column="status_id" property="statusId"/>
+        <collection property="bke" ofType="com.example.back_code.entity.bookstype" javaType="String">
+            <result column="id" property="id"/>
+            <result column="Typename" property="Typename"/>
+        </collection>
+        <collection property="sts" ofType="com.example.back_code.entity.status" javaType="String">
+            <result column="status_id" property="statusId"/>
+            <result column="statusname" property="statusname"/>
+        </collection>
+        <!--        <collection property="user" ofType="com.example.back_code.entity.User" javaType="String">-->
+        <!--            <result property="name" column="name"></result>-->
+        <!--            <result property="nick" column="nick"></result>-->
+        <!--        </collection>-->
+    </resultMap>
+    <select id="finpage" resultMap="booklistmapper">
+        SELECT * FROM booklist bk,`status` st,bookstype be WHERE bk.status_id=st.status_id AND bk.book_type=be.id
+        <if test="searchtype=='条码号'">AND bk.barcode like concat('%',#{search},'%')</if>
+        <if test="searchtype=='书名'">AND bk.book_title like concat('%',#{search},'%')</if>
+        <if test="searchtype=='作者'">AND bk.book_author like concat('%',#{search},'%')</if>
+        <if test="searchtype=='ISBN'">AND bk.book_isbn like concat('%',#{search},'%')</if>
+        <if test="searchtype=='出版年'">AND bk.book_year like concat('%',#{search},'%')</if>
+        <if test="searchtype=='索书号'">AND bk.book_num like concat('%',#{search},'%')</if>
+        <if test="status!=999">AND bk.status_id = #{status}</if>
+        <if test="booktype!=999">AND bk.book_type = #{booktype}</if>
+
+    </select>
+<!--     查询被该读者借的图书-->
+    <resultMap type="com.example.back_code.entity.BookList" id="queryrecord">
         <id column="book_id" property="bookId"/>
         <result column="barcode" property="barcode"/>
         <result column="book_num" property="bookNum"/>
@@ -24,24 +66,108 @@
             <result column="id" property="id"/>
             <result column="Typename" property="Typename"/>
         </collection>
-        <collection property="sts" ofType="com.example.back_code.entity.status" javaType="String">
-            <result column="status_id" property="statusId"/>
-            <result column="statusname" property="statusname"/>
+        <collection property="user" ofType="com.example.back_code.entity.User" javaType="String">
+            <result property="id" column="id"></result>
+            <result property="name" column="name"></result>
+            <result property="nick" column="nick"></result>
+            <result property="tel" column="tel"></result>
+            <result property="sex" column="sex"></result>
         </collection>
-<!--        <collection property="user" ofType="com.example.back_code.entity.User" javaType="String">-->
-<!--            <result property="name" column="name"></result>-->
-<!--            <result property="nick" column="nick"></result>-->
-<!--        </collection>-->
+        <collection property="user_types" ofType="com.example.back_code.entity.User_Type" javaType="String">
+            <result property="id" column="id"></result>
+            <result property="type_name" column="type_name"></result>
+        </collection>
     </resultMap>
-
-    <!-- 1.查询所有员工信息 id值为对应接口中方法的名字 resultMap:指定为resultMap标签的id值 -->
-    <select id="finpage" resultMap="booklistmapper">
-        SELECT * FROM booklist bk,`status` st,bookstype be WHERE bk.status_id=st.status_id AND bk.book_type=be.id
-        <if test="searchtype=='条码号'">AND bk.barcode like concat('%',#{search},'%')</if>
-        <if test="searchtype=='书名'">AND bk.book_title like concat('%',#{search},'%')</if>
-        <if test="searchtype=='作者'">AND bk.book_author like concat('%',#{search},'%')</if>
-        <if test="status!=999">AND bk.status_id = #{status}</if>
-        <if test="booktype!=999">AND bk.book_type = #{booktype}</if>
+    <select id="queryinfo" resultMap="queryrecord">
+        SELECT *
+        FROM `user` us,
+             booklist bl,
+             bookstype be,
+             user_type rt
+        WHERE us.id = bl.user_id
+          AND bl.book_type = be.id
+          AND us.type = rt.id
+          AND us.name = #{name }
     </select>
+
+    <resultMap type="com.example.back_code.entity.BookList" id="querybook">
+        <id column="book_id" property="bookId"/>
+        <result column="barcode" property="barcode"/>
+        <result column="book_num" property="bookNum"/>
+        <result column="book_title" property="bookTitle"/>
+        <result column="book_author" property="bookAuthor"/>
+        <result column="book_publisher" property="bookPublisher"/>
+        <result column="book_price" property="bookPrice"/>
+        <result column="book_shelf" property="bookShelf"/>
+        <result column="book_isbn" property="bookIsbn"/>
+        <result column="book_year" property="bookYear"/>
+        <result column="book_place" property="bookPlace"/>
+        <result column="book_type" property="bookType"/>
+        <result column="user_id" property="userId"/>
+        <result column="status_id" property="statusId"/>
+        <collection property="bke" ofType="com.example.back_code.entity.bookstype" javaType="String">
+            <result column="id" property="id"/>
+            <result column="Typename" property="Typename"/>
+        </collection>
+    </resultMap>
+    <select id="lendbook" resultMap="querybook">
+        SELECT * FROM booklist bt,bookstype be WHERE bt.book_type=be.id AND bt.user_id = #{id}
+    </select>
+
+<!--       通过条码查询-->
+    <resultMap type="com.example.back_code.entity.BookList" id="queryback">
+        <id column="book_id" property="bookId"/>
+        <result column="barcode" property="barcode"/>
+        <result column="book_num" property="bookNum"/>
+        <result column="book_title" property="bookTitle"/>
+        <result column="book_author" property="bookAuthor"/>
+        <result column="book_publisher" property="bookPublisher"/>
+        <result column="book_price" property="bookPrice"/>
+        <result column="book_shelf" property="bookShelf"/>
+        <result column="book_isbn" property="bookIsbn"/>
+        <result column="book_year" property="bookYear"/>
+        <result column="book_place" property="bookPlace"/>
+        <result column="book_type" property="bookType"/>
+        <result column="user_id" property="userId"/>
+        <result column="status_id" property="statusId"/>
+        <collection property="bke" ofType="com.example.back_code.entity.bookstype" javaType="String">
+            <result column="id" property="id"/>
+            <result column="Typename" property="Typename"/>
+        </collection>
+        <collection property="user" ofType="com.example.back_code.entity.User" javaType="String">
+            <result property="id" column="id"></result>
+            <result property="name" column="name"></result>
+            <result property="nick" column="nick"></result>
+            <result property="tel" column="tel"></result>
+            <result property="sex" column="sex"></result>
+        </collection>
+    </resultMap>
+    <select id="backbook" resultMap="queryback">
+        SELECT * FROM `user` ur,booklist bt,bookstype be WHERE ur.id=bt.user_id AND bt.book_type=be.id AND bt.barcode=#{barcode}
+    </select>
+
+    <resultMap type="com.example.back_code.entity.BookList" id="querypic">
+        <id column="book_id" property="bookId"/>
+        <result column="barcode" property="barcode"/>
+        <result column="book_num" property="bookNum"/>
+        <result column="book_title" property="bookTitle"/>
+        <result column="book_author" property="bookAuthor"/>
+        <result column="book_publisher" property="bookPublisher"/>
+        <result column="book_price" property="bookPrice"/>
+        <result column="book_shelf" property="bookShelf"/>
+        <result column="book_isbn" property="bookIsbn"/>
+        <result column="book_year" property="bookYear"/>
+        <result column="book_place" property="bookPlace"/>
+        <result column="book_type" property="bookType"/>
+        <result column="user_id" property="userId"/>
+        <result column="status_id" property="statusId"/>
+<!--    <collection property="record" ofType="com.example.back_code.entity.Record" javaType="String">-->
+<!--        -->
+<!--    </collection>-->
+    </resultMap>
+    <select id="hotbook" resultMap="querypic">
+        SELECT * from booklist bl,record re WHERE bl.barcode=re.barcode GROUP BY re.barcode  ORDER BY COUNT(re.barcode) DESC LIMIT 5
+    </select>
+
 
 </mapper>

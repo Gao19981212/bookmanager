@@ -1,20 +1,25 @@
 package com.example.back_code.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.back_code.common.Result;
+import com.example.back_code.entity.BookList;
 import com.example.back_code.entity.User;
+import com.example.back_code.mapper.BookMapper;
 import com.example.back_code.mapper.UserMapper;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+
+
+
 @RestController
 @RequestMapping("/user")
 public class Usercontroller {
     @Resource
     UserMapper userMapper;
-
     @PostMapping(value = "/login")
     public Result<?> login(@RequestBody User user) {
 
@@ -25,7 +30,8 @@ public class Usercontroller {
         } else if (type != null && res == null) {
             return Result.error("-1", "登录类型错误！");
         } else {
-            return Result.success();
+            res.setPassword(null);
+            return Result.success(res);
         }
     }
     @PutMapping("/update")
@@ -33,12 +39,18 @@ public class Usercontroller {
         userMapper.updateById(user);
         return  Result.success();
     }
+    @Autowired
+    BookMapper bookMapper;
   @DeleteMapping("del/{id}")
   public Result<?> delete(@PathVariable long id){
-      userMapper.deleteById(id);
-      return  Result.success();
-  }
+      BookList bookList=bookMapper.selectOne(Wrappers.<BookList>lambdaQuery().eq(BookList::getUserId,id));
+      if (bookList==null){
+          userMapper.deleteById(id);
+          return  Result.success();
+      }
+      return Result.error("-1","有书未还，无法删除！");
 
+  }
     @PostMapping("/adduser")
     public Result<?> save(@RequestBody User user) {
         User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getName, user.getName()));
@@ -46,6 +58,9 @@ public class Usercontroller {
         ) {
             if (user.getPassword()==null||user.getPassword()==""){
                 user.setPassword("123456");
+            }
+            if (user.getType()==null){
+                user.setType(2);
             }
             userMapper.insert(user);
             return Result.success();

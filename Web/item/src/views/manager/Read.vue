@@ -31,6 +31,7 @@
       <el-table-column prop="name" label="用户名" />
       <el-table-column prop="password" label="密码" />
       <el-table-column prop="nick" label="姓名" />
+      <el-table-column label="电话" prop="tel"></el-table-column>
       <el-table-column prop="age" label="年龄" />
       <el-table-column prop="sex" label="性别" />
       <el-table-column prop="user_types.type_name" label="类型">
@@ -83,6 +84,9 @@
           </el-form-item>
           <el-form-item label="姓名:">
             <el-input v-model="form.nick" placeholder="请输入姓名"></el-input>
+          </el-form-item>
+          <el-form-item label="电话:">
+            <el-input v-model="form.tel" placeholder="请输入电话"></el-input>
           </el-form-item>
           <el-form-item label="性别:">
             <el-radio-group v-model="form.sex">
@@ -149,6 +153,8 @@ export default {
   methods: {
     add() {
       this.dialogVisible = true;
+      this.form={};
+      this.title="新增";
     },
     addmethod() {
       this.$axios({
@@ -217,7 +223,7 @@ export default {
             this.load();
             this.$message.success("删除成功！");
           } else {
-            this.$message.error("删除失败！");
+            this.$message.error(res.data.msg);
           }
         })
         .catch((err) => {

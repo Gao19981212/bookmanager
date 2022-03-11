@@ -5,7 +5,7 @@
       <nav><Head></Head></nav>
     </header>
     <div style="display: flex;">
-      <aside style="width:200px;">
+      <aside> 
         <Left></Left>
       </aside>    
         <router-view style="flex: 1"></router-view>    
@@ -34,4 +34,7 @@ export default {
 };
 </script>
 <style lang='less'>
+body {
+  background: #f0f0f0;
+}
 </style>
