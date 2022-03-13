@@ -166,8 +166,40 @@
 <!--    </collection>-->
     </resultMap>
     <select id="hotbook" resultMap="querypic">
-        SELECT * from booklist bl,record re WHERE bl.barcode=re.barcode GROUP BY re.barcode  ORDER BY COUNT(re.barcode) DESC LIMIT 5
+        SELECT *
+        from booklist bl,
+             record re
+        WHERE bl.barcode = re.barcode
+        GROUP BY re.barcode
+        ORDER BY COUNT(re.barcode) DESC LIMIT 6
     </select>
 
-
+    <resultMap type="com.example.back_code.entity.BookList" id="bookDetail">
+    <id column="book_id" property="bookId"/>
+    <result column="barcode" property="barcode"/>
+    <result column="book_num" property="bookNum"/>
+    <result column="book_title" property="bookTitle"/>
+    <result column="book_author" property="bookAuthor"/>
+    <result column="book_publisher" property="bookPublisher"/>
+    <result column="book_price" property="bookPrice"/>
+    <result column="book_shelf" property="bookShelf"/>
+    <result column="book_isbn" property="bookIsbn"/>
+    <result column="book_year" property="bookYear"/>
+    <result column="book_place" property="bookPlace"/>
+    <result column="book_type" property="bookType"/>
+    <result column="status_id" property="statusId"/>
+        <result column="book_pic" property="bookPic"/>
+        <result column="book_content" property="bookContent"></result>
+    <collection property="bke" ofType="com.example.back_code.entity.bookstype" javaType="String">
+        <result column="id" property="id"/>
+        <result column="Typename" property="Typename"/>
+    </collection>
+        <collection property="sts" ofType="com.example.back_code.entity.status" javaType="String">
+            <result column="status_id" property="statusId"/>
+            <result column="statusname" property="statusname"/>
+        </collection>
+    </resultMap>
+    <select id="Detailbook" resultMap="bookDetail">
+        SELECT * from booklist bl,bookstype be,status st WHERE bl.book_type=be.id AND bl.status_id=st.status_id AND bl.book_id = #{id}
+    </select>
 </mapper>

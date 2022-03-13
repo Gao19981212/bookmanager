@@ -134,7 +134,11 @@ public class Bookcontroller {
         return  Result.success(bookLists);
      }
 
-
+    @GetMapping("/Detailbook")
+    public  Result<?> Detailbook(@RequestParam int id){
+        List<BookList> bookLists=bookMapper.Detailbook(id);
+        return  Result.success(bookLists);
+    }
 
 }
 

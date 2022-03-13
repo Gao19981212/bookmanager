@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
+Source Server         : mm
 Source Server Version : 80028
 Source Host           : localhost:3306
 Source Database       : books
@@ -10,10 +10,30 @@ Target Server Type    : MYSQL
 Target Server Version : 80028
 File Encoding         : 65001
 
-Date: 2022-03-11 15:54:01
+Date: 2022-03-13 22:49:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for bindinfo
+-- ----------------------------
+DROP TABLE IF EXISTS `bindinfo`;
+CREATE TABLE `bindinfo` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nick` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `book_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `book_author` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `book_pic` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `book_rate` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Isbind` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ----------------------------
+-- Records of bindinfo
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for booklist
