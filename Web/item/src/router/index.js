@@ -21,6 +21,14 @@ const routes = [
     component: () => import("../views/Readpage/Search.vue"),
   },
   {
+    path: '/Detailbook',
+    name: 'Detailbook',
+    meta: {
+      title: "图书详情",
+    },
+    component: () => import("../views/Readpage/Detailbook.vue"),
+  },
+  {
     path: '/register',
     name: 'register',
     meta: {
@@ -41,45 +49,45 @@ const routes = [
       component: () => import("../views/Home.vue")
     },
     {
-      path: '/read',
+      path: 'read',
       name: "1-3",
       meta: {
-        title: "读者管理",
+        title: "用户管理",
       },
       component: () => import("../views/manager/Read.vue")
     },
     {
-      path: '/books',
+      path: 'books',
       name: "2-1",
       meta: {
         title: "图书管理",
       },
       component: () => import("../views/collectbook/bookmanager.vue")
+    },
+    {
+      path: 'bbw',
+      name: "3-1",
+      meta: {
+        title: "图书借阅",
       },
-      {
-        path: '/bbw',
-        name: "3-1",
-        meta: {
-          title: "图书借阅",
-        },
-        component: () => import("../views/cirmanager/Bookborrowing.vue")
+      component: () => import("../views/cirmanager/Bookborrowing.vue")
+    },
+    {
+      path: 'brn',
+      name: "3-2",
+      meta: {
+        title: "图书归还",
       },
-      {
-        path: '/brn',
-        name: "3-2",
-        meta: {
-          title: "图书归还",
-        },
-        component: () => import("../views/cirmanager/Bookreturn.vue")
+      component: () => import("../views/cirmanager/Bookreturn.vue")
+    },
+    {
+      path: 'crd',
+      name: "3-3",
+      meta: {
+        title: "查询记录",
       },
-      {
-        path: '/crd',
-        name: "3-3",
-        meta: {
-          title: "查询记录",
-        },
-        component: () => import("../views/cirmanager/Circulationrecord.vue")
-      },
+      component: () => import("../views/cirmanager/Circulationrecord.vue")
+    },
     ]
   }
 
@@ -89,5 +97,8 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+router.afterEach((to, form) => {
+  document.title = to.meta.title;
+})
 
 export default router;

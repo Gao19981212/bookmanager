@@ -1,0 +1,136 @@
+.login_bg {
+    // background: url("../../assets/img/bg.jpeg");
+    background: rgb(47, 54, 64);
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .board {
+    width: 26vw;
+    height: 25vw;
+    background: #706fd3;
+    float: left;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    div:nth-child(2) {
+      color: #fff;
+      margin-top: 10px;
+    }
+  }
+  .login_div {
+    width: 26vw;
+    height: 25vw;
+    background: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    float: left;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+  .login_font {
+    display: flex;
+    flex-flow: row nowrap;
+    div:nth-child(1) {
+      font-size: 2vw;
+      color: #fff;
+      font-weight: 700;
+      margin-right: 0.5vw;
+    }
+    img {
+      width: 2vw;
+      text-align: center;
+    }
+  }
+  .login_content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    .el-form {
+      width: 70%;
+      margin-right: 3vw;
+    }
+    .el-select,
+    .login_input {
+      width: 100%;
+      margin: 0 auto;
+      /deep/ .el-input__inner {
+        border: none;
+        border-bottom: 2px solid #ecf0f1;
+        border-radius: unset;
+      }
+      /deep/ .el-input__inner:focus {
+        border-bottom: 1px solid #2980b9;
+        animation: liner 0.5s ease forwards;
+      }
+    }
+    @keyframes liner {
+      0% {
+        width: 20%;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+    .login_input {
+      .el-icon {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        right: 5px;
+        top: 5px;
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+    .el-form-item {
+      margin-top: 2vw;
+    }
+    .el-input__inner:focus {
+      border-color: #adadad;
+    }
+    .el-icon {
+      color: #555;
+    }
+    .letter {
+      width: 70%;
+      margin: 0 auto;
+      display: flex;
+      flex-flow: row nowrap;
+      margin-top: 1vw;
+      align-items: center;
+      letter-spacing: 2px;
+      .el-checkbox {
+        margin-right: 8vw;
+      }
+    }
+    .el-button {
+      width: 95%;
+      letter-spacing: 2px;
+      margin: 0 auto;
+      height: 40px;
+      margin-top: 0.5vw;
+    }
+  }
+  .a_btn {
+    span {
+      font-size: 0.7vw;
+      color: #2a5caa;
+      cursor: pointer;
+    }
+  }

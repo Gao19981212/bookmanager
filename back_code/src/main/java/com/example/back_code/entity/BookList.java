@@ -30,9 +30,9 @@ public class BookList {
     @TableField(exist = false)
     private User user;
     @TableField(exist = false)
-    private status sts;
+    private Status sts;
     @TableField(exist = false)
-    private bookstype bke;
+    private Bookstype bke;
     @TableField(exist = false)
     private User_Type user_types;
     @TableField(exist = false)

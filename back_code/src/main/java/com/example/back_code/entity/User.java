@@ -26,5 +26,5 @@ public class User {
     @TableField(exist = false)
     private BookList bookList;
     @TableField(exist = false)
-    private bookstype bookstype;
+    private Bookstype bookstype;
 }

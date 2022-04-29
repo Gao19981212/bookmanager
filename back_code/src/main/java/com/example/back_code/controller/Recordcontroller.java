@@ -1,16 +1,13 @@
 package com.example.back_code.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.back_code.common.Result;
 import com.example.back_code.entity.Computed;
 import com.example.back_code.entity.Record;
-import com.example.back_code.entity.status;
 import com.example.back_code.mapper.BookMapper;
 import com.example.back_code.mapper.RecordMapper;
 import com.example.back_code.mapper.UserMapper;
-import com.example.back_code.mapper.statusMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @RestController
 @RequestMapping("/record")

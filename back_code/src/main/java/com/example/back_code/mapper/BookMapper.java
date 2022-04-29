@@ -15,5 +15,5 @@ public interface BookMapper extends BaseMapper<BookList> {
     List<BookList> lendbook(int id);
     List<BookList> backbook(String barcode);
     List<BookList> hotbook();
-    List<BookList> Detailbook(int id);
+    BookList Detailbook(int id);
 }

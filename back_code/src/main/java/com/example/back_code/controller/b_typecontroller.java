@@ -4,9 +4,9 @@ import com.example.back_code.common.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.example.back_code.mapper.booktypeMapper;
+import com.example.back_code.mapper.BooktypeMapper;
 import javax.annotation.Resource;
-import com.example.back_code.entity.bookstype;
+import com.example.back_code.entity.Bookstype;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import java.util.List;
 @RequestMapping("/booktype")
 public class b_typecontroller {
 @Resource
-    booktypeMapper booktypeMapper;
+BooktypeMapper booktypeMapper;
 @GetMapping("/query")
  public Result<?> query(){
-    List<bookstype> bookstype=booktypeMapper.selectList(null);
+    List<Bookstype> bookstype=booktypeMapper.selectList(null);
     return Result.success(bookstype);
  }
 }

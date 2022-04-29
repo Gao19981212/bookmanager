@@ -235,7 +235,7 @@
               <el-form-item label="上传封面:">
                 <el-upload
                   class="avatar-uploader"
-                  action="http://localhost:9090/files/upload"
+                  action="http://192.168.32.1:9090/files/upload"
                   method="post"
                   ref="up_load"
                   show-file-list
@@ -315,8 +315,10 @@ export default {
   },
   computed: {},
   methods: {
+   
     imgurl(val) {   
-      return val;
+      let url="/api"+val;
+      return url;
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
@@ -499,6 +501,13 @@ export default {
 };
 </script>
 <style lang="less">
+  .book_page {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
 .bookbtn {
   display: flex;
   flex-flow: row nowrap;

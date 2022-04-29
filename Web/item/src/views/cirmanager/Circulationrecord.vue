@@ -168,11 +168,11 @@ queryradio(){
     },
     handleSizeChange(pagesize) {
       this.pagesize = Number(pagesize);
-      this.pagedata();
+      this.load();
     },
     handleCurrentChange(current) {
       this.current = Number(current);
-      this.pagedata();
+      this.load();
     },
   },
 };

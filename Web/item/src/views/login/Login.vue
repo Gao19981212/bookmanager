@@ -1,65 +1,97 @@
-import { rules } from '../../../.eslintrc';
-
-<!--  -->
 <template>
   <div class="login_bg">
-    <div class="login_div">
-      <div class="login_content">
-        <div class="login_font">
-          <span>欢迎登录</span>
+    <transition
+      appear
+      name="animate__animated animate__bounce"
+      enter-active-class="animate__backInDown"
+    >
+      <div class="box">
+        <div class="board">
+          <div class="login_font">
+            <div>欢迎登录</div>
+            <div><img src="../../assets/img/图书.png"></div>
+          </div>
+          <div>
+            <h4>高校图书管理系统</h4>
+          </div>
         </div>
-        <el-form :model="form" :rules="rules" ref="form">
-          <el-form-item label="" prop="name">
-            <el-input
-              v-model="form.name"
-              placeholder="请输入学号"
-              clearable
-              prefix-icon="Avatar"
-              type="text"
-            />
-          </el-form-item>
-          <el-form-item label="" prop="password">
-            <el-input
-              v-model="form.password"
-              prefix-icon="Lock"
-              placeholder="请输入密码"
-              show-password
-              type="password"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="" prop="type">
-            <el-select
-              v-model="form.type"
-              class="m-2"
-              placeholder="请选择类型"
-              size="default"
+        <div class="login_div">
+          <div class="login_content">
+            <el-form
+              :model="form"
+              :rules="rules"
+              ref="form"
             >
-              <el-option label="管理员" :value="1"></el-option>
-              <el-option label="读者" :value="2"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="">
-            <el-button type="primary" round @click="enterIndex">登录</el-button>
-          </el-form-item>
-        </el-form>
-        <div class="letter">
-          <span>
-            <el-checkbox
-              label="记住我"
-              border
-              v-model="login_check"
-              :checked="login_check"
-              size="large"
-            ></el-checkbox>
-          </span>
-          <div class="a_btn">
-            <span>忘记密码</span>
-            <span>|</span>
-            <span @click="register()">新用户注册</span>
+              <el-form-item
+                label=""
+                prop="name"
+              >
+                <el-input
+                  v-model="form.name"
+                  placeholder="请输入学号"
+                  clearable
+                  prefix-icon="Avatar"
+                  class="login_input"
+                  type="text"
+                />
+              </el-form-item>
+              <el-form-item
+                label=""
+                prop="password"
+              >
+                <el-input
+                  v-model="form.password"
+                  prefix-icon="Lock"
+                  placeholder="请输入密码"
+                  class="login_input"
+                  show-password
+                  type="password"
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="type">
+                <el-select
+                  v-model="form.type"
+                  placeholder="请选择类型"
+                  size="default"
+                  class="select"
+                >
+                  <el-option
+                    label="管理员"
+                    :value="1"
+                  ></el-option>
+                  <el-option
+                    label="读者"
+                    :value="2"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item>
+                <el-button
+                  type="primary"
+                  round
+                  @click="enterIndex"
+                >登录</el-button>
+              </el-form-item>
+            </el-form>
+            <div class="letter">
+              <div>
+                <el-checkbox
+                  label="记住我"
+                  v-model="login_check"
+                  :checked="login_check"
+                  size="large"
+                ></el-checkbox>
+              </div>
+              <div class="a_btn">
+                <!-- <span class="select">忘记密码</span>
+                <span class="select">|</span> -->
+                <span @click="register()">新用户注册</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -67,7 +99,11 @@ import { rules } from '../../../.eslintrc';
 export default {
   data() {
     return {
-      form: {},
+      form: {
+        name: "",
+        password: "",
+        type: null,
+      },
       login_check: false,
       rules: {
         name: [
@@ -99,11 +135,19 @@ export default {
 
   computed: {},
 
-  mounted() {},
+  mounted() {
+    this.pd();
+  },
   created() {
     this.load();
   },
   methods: {
+    pd() {
+      var width = document.body.clientWidth;
+      if (width <= 480) {
+        this.form.type = 2;
+      }
+    },
     register() {
       this.$router.push({
         path: "/register",
@@ -142,7 +186,7 @@ export default {
             .then((res) => {
               if (res.data.code == "0") {
                 sessionStorage.setItem("nick", res.data.data.nick);
-
+                sessionStorage.setItem("name", res.data.data.name);
                 this.$message.success("登录成功");
                 this.remember();
                 if (this.form.type == 1) {
@@ -179,71 +223,6 @@ export default {
   },
 };
 </script>
-<style lang='less'>
-.login_bg {
-  background: url("../../assets/img/bg.jpeg");
-  background-size: cover;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.login_div {
-  width: 500px;
-  height: 480px;
-  background: #ecf5ff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-}
-.login_content {
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  height: 480px;
-  .el-input__inner {
-    width: 350px;
-  }
-  .el-input__inner:focus {
-    border-color: #adadad;
-  }
-  .el-icon {
-    color: #555;
-  }
-  .letter {
-    margin-bottom: 25px;
-  }
-  button {
-    width: 350px;
-  }
-}
-.login_font {
-  margin-bottom: 30px;
-  span {
-    font-weight: 700;
-    color: #545454;
-    font-size: 25px;
-    float: left;
-    line-height: 35px;
-  }
-  .el-image {
-    width: 35px;
-    height: 35px;
-    margin-left: 5px;
-  }
-}
-.a_btn {
-  display: inline-block;
-  margin-left: 80px;
-  span {
-    font-size: 14px;
-    color: #2a5caa;
-    margin-left: 10px;
-    cursor: pointer;
-  }
-}
+<style lang='less' scoped>
+@import url("../../assets/css/loginstyle.less");
 </style>

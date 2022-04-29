@@ -1,14 +1,19 @@
 <!--  -->
 <template>
   <div>
-    <header>
-      <nav><Head></Head></nav>
-    </header>
+
     <div style="display: flex;">
-      <aside> 
+      <aside>
         <Left></Left>
-      </aside>    
-        <router-view style="flex: 1"></router-view>    
+      </aside>
+      <div style="flex: 1">
+        <header>
+          <Head></Head>
+        </header>
+        <article>
+          <router-view></router-view>
+        </article>
+      </div>
     </div>
   </div>
 </template>
@@ -36,5 +41,9 @@ export default {
 <style lang='less'>
 body {
   background: #f0f0f0;
+  overflow: hidden;
+}
+.aside {
+  width: 200px;
 }
 </style>

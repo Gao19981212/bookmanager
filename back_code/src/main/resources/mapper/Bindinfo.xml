@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.back_code.mapper.BindMapper">
+    <resultMap id="bindinfomapper" type="com.example.back_code.entity.Bindinfo">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <collection property="bookList" ofType="com.example.back_code.entity.BookList" javaType="String">
+            <result column="book_id" property="bookId"/>
+            <result column="barcode" property="barcode"></result>
+            <result column="book_title" property="bookTitle"/>
+            <result column="book_author" property="bookAuthor"/>
+            <result column="book_pic" property="bookPic"/>
+            <result column="book_type" property="bookType"/>
+        </collection>
+    </resultMap>
+    <select id="findpage" resultMap="bindinfomapper">
+        SELECT bl.barcode, bl.book_title, bl.book_author, bl.book_pic, bo.`name`, bl.book_type, bl.book_id
+        FROM bindinfo bo,
+             booklist bl
+        WHERE bo.book_typeid = bl.book_type
+          AND bo.`name` = #{name} GROUP BY bl.barcode
+    </select>
+</mapper>
