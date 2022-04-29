@@ -1,51 +1,62 @@
 <!--  -->
 <template>
-  <div class="index_num">
-    <div class="read_num">
-      <div class="icon">
-        <el-icon :size="70">
-          <avatar />
-        </el-icon>
+  <transition
+   appear
+    name="animate__animated animate__bounce"
+   enter-active-class="animate__backInDown"
+  >
+    <div class="index_num">
+      <div class="read_num">
+        <div class="icon">
+          <el-icon :size="70">
+            <avatar />
+          </el-icon>
+        </div>
+        <div class="info">
+          <div>读者人数</div>
+          <div>{{num.readNum}}人</div>
+        </div>
       </div>
-      <div class="info">
-        <div>读者人数</div>
-        <div>{{num.readNum}}人</div>
+      <div class="read_num booknum">
+        <div class="icon">
+          <el-icon :size="70">
+            <collection />
+          </el-icon>
+        </div>
+        <div class="info">
+          <div>馆藏总量</div>
+          <div>{{num.bookNum}}册</div>
+        </div>
+      </div>
+      <div class="read_num lendnum">
+        <div class="icon">
+          <el-icon :size="70">
+            <zoom-out />
+          </el-icon>
+        </div>
+        <div class="info">
+          <div>累计借阅</div>
+          <div>{{num.lendNum}}本</div>
+        </div>
+      </div>
+      <div class="read_num backnum">
+        <div class="icon">
+          <el-icon :size="70">
+            <zoom-in />
+          </el-icon>
+        </div>
+        <div class="info">
+          <div>累计归还</div>
+          <div>{{num.backNum}}本</div>
+        </div>
       </div>
     </div>
-    <div class="read_num booknum">
-      <div class="icon">
-        <el-icon :size="70">
-          <collection />
-        </el-icon>
-      </div>
-      <div class="info">
-        <div>馆藏总量</div>
-        <div>{{num.bookNum}}册</div>
-      </div>
-    </div>
-    <div class="read_num lendnum">
-      <div class="icon">
-        <el-icon :size="70">
-          <zoom-out />
-        </el-icon>
-      </div>
-      <div class="info">
-        <div>累计借阅</div>
-        <div>{{num.lendNum}}本</div>
-      </div>
-    </div>
-    <div class="read_num backnum">
-      <div class="icon">
-        <el-icon :size="70">
-          <zoom-in />
-        </el-icon>
-      </div>
-      <div class="info">
-        <div>累计归还</div>
-        <div>{{num.backNum}}本</div>
-      </div>
-    </div>
-  </div>
+  </transition>
+    <transition
+   appear
+    name="animate__animated animate__bounce"
+   enter-active-class="animate__fadeIn"
+  >
   <div class="box">
     <div class="title"> 热门图书借阅排行榜</div>
     <el-table
@@ -98,7 +109,7 @@
 
     </el-table>
   </div>
-
+  </transition>
 </template>
 
 <script>
@@ -182,13 +193,11 @@ export default {
 
 .box {
   width: 35vw;
-  margin-left: 1.6vw;
-  margin-top: 1vw;
+  margin-left: 1vw;
   .title {
     width: 35vw;
     height: 35px;
     background: #7f8c8d;
-    // background-image: linear-gradient(to left, #e67e22, #d35400, #e67e22);
     color: #fff;
     line-height: 35px;
     padding-left: 15px;
@@ -197,13 +206,12 @@ export default {
 .index_num {
   display: flex;
   flex-flow: row wrap;
+  padding: 1vw;
 }
-
 .read_num {
   width: 20vw;
-  height: 7.2vw;
-  margin-left: 1.6vw;
-  margin-top: 1vw;
+  height: 7vw;
+  margin-right: 1vw;
   background-color: #1caf9a;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
   border-color: #1caf9a;

@@ -8,6 +8,17 @@ body,html{
   height: 100%;
  background: #f1f2f6;
 }
+.el-table{
+  animation: sh 1s ease-in-out forwards;
+}
+@keyframes sh {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
   .el-input__inner:focus {
     border-color: #adadad;
   }
