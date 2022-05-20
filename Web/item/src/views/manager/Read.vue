@@ -11,6 +11,7 @@
             v-model="searchtxt"
             placeholder="请输入查询的用户名"
             style="width: 300px"
+            @keypress="load"
           />
         </div>
         <div>

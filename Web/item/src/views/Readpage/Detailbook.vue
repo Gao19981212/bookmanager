@@ -440,7 +440,7 @@ export default {
   }
   .de_content {
     padding-right: 1.2vw;
-    width: auto;
+    width: 14vw;
     margin-left: 10px;
     float: left;
     color: #555;

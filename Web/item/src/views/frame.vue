@@ -41,7 +41,6 @@ export default {
 <style lang='less'>
 body {
   background: #f0f0f0;
-  overflow: hidden;
 }
 .aside {
   width: 200px;

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 
 @RestController
@@ -25,8 +26,12 @@ public class Usercontroller {
     @PostMapping(value = "/login")
     public Result<?> login(@RequestBody User user) {
 
-        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getName, user.getName()).eq(User::getPassword, user.getPassword()).eq(User::getType, user.getType()));
-        User type = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getName, user.getName()).eq(User::getPassword, user.getPassword()));
+        User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getName, user.getName())
+                .eq(User::getPassword, user.getPassword())
+                .eq(User::getType, user.getType()));
+        User type = userMapper.selectOne(Wrappers.<User>lambdaQuery()
+                .eq(User::getName, user.getName())
+                .eq(User::getPassword, user.getPassword()));
         if (type == null) {
             return Result.error("-1", "账号或者密码错误！");
         } else if (type != null && res == null) {
@@ -39,32 +44,28 @@ public class Usercontroller {
 
     @PutMapping("/update")
     public Result<?> update(@RequestBody User user) {
+        User old=userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getId, user.getId()));
         User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getName, user.getName()));
-        if (res == null
-        ) {
-            userMapper.updateById(user);
-            return Result.success();
+        if (null != res){
+            if (res.getName().equals(old.getName())){
+                userMapper.updateById(user);
+                return Result.success();
+            }
+            return Result.error("-1", "用户名已重复,不能修改");
         }
-
-            return Result.error("-1","用户名已重复,不能修改");
-
-
+        userMapper.updateById(user);
+        return Result.success();
     }
+
     @PutMapping("/readupdate")
     public Result<?> readupdate(@RequestBody User user) {
         User res = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getName, user.getName()));
         userMapper.updateById(user);
-        if (res.getPassword().equals(user.getPassword())){
-
+        if (res.getPassword().equals(user.getPassword())) {
             return Result.success();
-        }
-        else {
-
+        } else {
             return Result.success("密码已改变！");
         }
-
-
-
     }
 
     @Autowired
@@ -72,12 +73,15 @@ public class Usercontroller {
 
     @DeleteMapping("del/{id}")
     public Result<?> delete(@PathVariable long id) {
-        BookList bookList = bookMapper.selectOne(Wrappers.<BookList>lambdaQuery().eq(BookList::getUserId, id));
-        if (bookList == null) {
+        List<BookList> bookList = bookMapper.selectList(Wrappers.<BookList>lambdaQuery().eq(BookList::getUserId, id));
+
+        if (null == bookList || bookList.size() == 0) {
             userMapper.deleteById(id);
             return Result.success();
+        } else {
+            return Result.error("-1", "有书未还，无法删除！");
         }
-        return Result.error("-1", "有书未还，无法删除！");
+
 
     }
 

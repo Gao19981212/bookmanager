@@ -3,26 +3,49 @@
   <div>
     <div>
       <div class="book_add">
-        <el-button type="primary" @click="add()">新增</el-button>
+        <el-button
+          type="primary"
+          @click="add()"
+        >新增</el-button>
       </div>
     </div>
     <div class="bookbtn">
       <div class="book_search">
-        <el-input v-model="searchtxt" placeholder="请输入要查询的内容">
+        <el-input
+          v-model="searchtxt"
+          placeholder="请输入要查询的内容"
+         @keypress="query"
+        >
           <template #prepend>
             <el-select
               v-model="select"
               placeholder="请选择"
               style="width: 90px; text-align: center"
+
             >
-              <el-option label="全部" value="全部"></el-option>
-              <el-option label="条码号" value="条码号"></el-option>
-              <el-option label="书名" value="书名"></el-option>
-              <el-option label="作者" value="作者"></el-option>
+              <el-option
+                label="全部"
+                value="全部"
+              ></el-option>
+              <el-option
+                label="条码号"
+                value="条码号"
+              ></el-option>
+              <el-option
+                label="书名"
+                value="书名"
+              ></el-option>
+              <el-option
+                label="作者"
+                value="作者"
+              ></el-option>
             </el-select>
           </template>
           <template #append>
-            <el-button type="primary" :icon="Search"></el-button>
+            <el-button
+              type="primary"
+              :icon="Search"
+            ></el-button>
           </template>
         </el-input>
       </div>
@@ -34,7 +57,10 @@
               placeholder="请选择"
               style="width: 180px"
             >
-              <el-option label="全部" :value="999"></el-option>
+              <el-option
+                label="全部"
+                :value="999"
+              ></el-option>
               <el-option
                 v-for="(item, index) in book_type"
                 :key="index"
@@ -54,7 +80,10 @@
               placeholder="请选择"
               style="width: 180px"
             >
-              <el-option label="全部" :value="999"></el-option>
+              <el-option
+                label="全部"
+                :value="999"
+              ></el-option>
               <el-option
                 v-for="(item, index) in status_arry"
                 :key="index"
@@ -67,7 +96,10 @@
         </el-form>
       </div>
       <div style="margin-left: 15px">
-        <el-button type="primary" @click="query">查询</el-button>
+        <el-button
+          type="primary"
+          @click="query"
+        >查询</el-button>
       </div>
     </div>
     <el-table
@@ -77,7 +109,11 @@
       border
       :header-cell-style="{ background: '#F0F8FF', color: '#1E90FF' }"
     >
-      <el-table-column label="序号" prop="key" fixed="left"></el-table-column>
+      <el-table-column
+        label="序号"
+        prop="key"
+        fixed="left"
+      ></el-table-column>
       <el-table-column label="封面">
         <template #default="scope">
           <el-image
@@ -87,18 +123,55 @@
           ></el-image>
         </template>
       </el-table-column>
-      <el-table-column label="条码" prop="barcode"></el-table-column>
-      <el-table-column label="书名" prop="bookTitle"></el-table-column>
-      <el-table-column label="作者" prop="bookAuthor"></el-table-column>
-      <el-table-column label="定价" prop="bookPrice"></el-table-column>
-      <el-table-column label="ISBN" prop="bookIsbn"></el-table-column>
-      <el-table-column label="索书号" prop="bookNum"></el-table-column>
-      <el-table-column label="出版地" prop="bookPlace"></el-table-column>
-      <el-table-column label="出版社" prop="bookPublisher"></el-table-column>
-      <el-table-column label="出版年" prop="bookYear"></el-table-column>
-      <el-table-column label="架位号" prop="bookShelf"></el-table-column>
-      <el-table-column label="类别" prop="bke.typename"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="120">
+      <el-table-column
+        label="条码"
+        prop="barcode"
+      ></el-table-column>
+      <el-table-column
+        label="书名"
+        prop="bookTitle"
+      ></el-table-column>
+      <el-table-column
+        label="作者"
+        prop="bookAuthor"
+      ></el-table-column>
+      <el-table-column
+        label="定价"
+        prop="bookPrice"
+      ></el-table-column>
+      <el-table-column
+        label="ISBN"
+        prop="bookIsbn"
+      ></el-table-column>
+      <el-table-column
+        label="索书号"
+        prop="bookNum"
+      ></el-table-column>
+      <el-table-column
+        label="出版地"
+        prop="bookPlace"
+      ></el-table-column>
+      <el-table-column
+        label="出版社"
+        prop="bookPublisher"
+      ></el-table-column>
+      <el-table-column
+        label="出版年"
+        prop="bookYear"
+      ></el-table-column>
+      <el-table-column
+        label="架位号"
+        prop="bookShelf"
+      ></el-table-column>
+      <el-table-column
+        label="类别"
+        prop="bke.typename"
+      ></el-table-column>
+      <el-table-column
+        fixed="right"
+        label="操作"
+        width="120"
+      >
         <template #default="scope">
           <el-button
             type="primary"
@@ -108,7 +181,10 @@
             style="background: #426ab3"
           >
           </el-button>
-          <el-popconfirm title="确定删除?" @confirm="del(scope.row.bookId)">
+          <el-popconfirm
+            title="确定删除?"
+            @confirm="del(scope.row.bookId)"
+          >
             <template #reference>
               <el-button
                 type="danger"
@@ -132,24 +208,33 @@
       >
       </el-pagination>
     </div>
-    <el-dialog v-model="dialogVisible" :title="title" width="50%">
+    <el-dialog
+      v-model="dialogVisible"
+      :title="title"
+      width="50%"
+    >
       <div style="width: 95%; margin: 0 auto">
-        <el-form :model="form" label-width="80px">
+        <el-form
+          :model="form"
+          label-width="80px"
+        >
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="条码号:">
                 <el-input
                   v-model="form.barcode"
                   placeholder="请输入条码号"
-                ></el-input> </el-form-item
-            ></el-col>
+                ></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
               <el-form-item label="索书号:">
                 <el-input
                   v-model="form.bookNum"
                   placeholder="请输入索书号"
-                ></el-input> </el-form-item
-            ></el-col>
+                ></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
@@ -175,16 +260,18 @@
                 <el-input
                   v-model="form.bookPublisher"
                   placeholder="请输入出版社"
-                ></el-input> </el-form-item
-            ></el-col>
+                ></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
               <el-form-item label="价格:">
                 <el-input
                   v-model.number="form.bookPrice"
                   placeholder="请输入价格"
                   type="number"
-                ></el-input> </el-form-item
-            ></el-col>
+                ></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
@@ -193,15 +280,17 @@
                   v-model="form.bookShelf"
                   placeholder="请输入架位号"
                   type="text"
-                ></el-input> </el-form-item
-            ></el-col>
-            <el-col :span="12"
-              ><el-form-item label="标准编码:">
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="标准编码:">
                 <el-input
                   v-model="form.bookIsbn"
                   placeholder="请输入标准编码"
-                ></el-input> </el-form-item
-            ></el-col>
+                ></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
@@ -209,18 +298,23 @@
                 <el-input
                   v-model="form.bookYear"
                   placeholder="请输入出版年"
-                ></el-input> </el-form-item
-            ></el-col>
+                ></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
               <el-form-item label="出版地:">
                 <el-input
                   v-model="form.bookPlace"
                   placeholder="请输入出版年"
-                ></el-input> </el-form-item
-            ></el-col>
+                ></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-form-item label="类别:">
-            <el-select v-model="form.bookType" placeholder="请选择">
+            <el-select
+              v-model="form.bookType"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="(item, index) in book_type"
                 :key="index"
@@ -245,10 +339,17 @@
                   :on-success="handleAvatarSuccess"
                   :on-error="error"
                 >
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-                  <el-icon v-else class="avatar-uploader-icon"
-                    ><plus
-                  /></el-icon>
+                  <img
+                    v-if="imageUrl"
+                    :src="imageUrl"
+                    class="avatar"
+                  />
+                  <el-icon
+                    v-else
+                    class="avatar-uploader-icon"
+                  >
+                    <plus />
+                  </el-icon>
                 </el-upload>
               </el-form-item>
             </el-col>
@@ -269,7 +370,10 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="addsure()">确定</el-button>
+          <el-button
+            type="primary"
+            @click="addsure()"
+          >确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -315,9 +419,8 @@ export default {
   },
   computed: {},
   methods: {
-   
-    imgurl(val) {   
-      let url="/api"+val;
+    imgurl(val) {
+      let url = "/api" + val;
       return url;
     },
     beforeAvatarUpload(file) {
@@ -334,7 +437,7 @@ export default {
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       this.form.bookPic = res.data;
-      this.$refs['up_load'].clearFiles();
+      this.$refs["up_load"].clearFiles();
       this.pagedata();
     },
     error(error) {
@@ -343,7 +446,7 @@ export default {
     update(row) {
       this.form = row;
       this.title = "编辑";
-      this.imageUrl=row.bookPic;
+      this.imageUrl = `/api${row.bookPic}`;
       this.dialogVisible = true;
     },
     del(id) {
@@ -358,7 +461,7 @@ export default {
             this.pagedata();
             this.$message.success("删除成功！");
           } else {
-            this.$message.error("删除失败！");
+            this.$message.error(res.data.msg);
           }
         })
         .catch((err) => {
@@ -435,7 +538,7 @@ export default {
     },
     add() {
       this.form = {};
-     this.imageUrl="";
+      this.imageUrl = "";
       this.dialogVisible = true;
     },
     updatemethods() {
@@ -471,7 +574,7 @@ export default {
           if (res.data.code == "0") {
             this.pagedata();
             this.form = {};
-            this.imageUrl="";
+            this.imageUrl = "";
             this.dialogVisible = false;
             this.$message.success("新增成功！");
           } else {
@@ -501,13 +604,12 @@ export default {
 };
 </script>
 <style lang="less">
-  .book_page {
-    width: 30%;
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    margin-top: 20px;
-  }
+.book_page {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  margin: 1vw auto;
+}
 .bookbtn {
   display: flex;
   flex-flow: row nowrap;

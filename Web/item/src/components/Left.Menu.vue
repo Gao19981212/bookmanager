@@ -3,13 +3,14 @@
   <div>
 
     <el-menu
+    :style="{height:sw+'px'}"
       class="left_menu"
       background-color="#46485f"
       active-text-color="#dea32c"
       text-color="#fff"
       :unique-opened="true"
       :collapse="isCollapse"
-      :style="{height:sw+'px'}"
+      
       router
       :default-active="active"
     >
@@ -87,11 +88,11 @@ export default {
   },
   methods: {
     menuheight() {
-      this.sw = document.body.clientHeight;
+      this.sw = document.body.scrollHeight;
       window.onload = () => {
-        this.sw = document.body.clientHeight;
+        this.sw = document.body.scrollHeight;
         return (() => {
-          this.sw = document.body.clientHeight;
+          this.sw = document.body.scrollHeight;
         })();
       };
     },

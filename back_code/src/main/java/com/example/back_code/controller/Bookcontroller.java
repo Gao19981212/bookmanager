@@ -16,6 +16,7 @@ import com.example.back_code.mapper.BooktypeMapper;
 import com.example.back_code.entity.Record;
 import org.springframework.web.bind.annotation.*;
 import com.example.back_code.entity.Bookstype;
+
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,7 +36,7 @@ public class Bookcontroller {
     @Autowired
     BooktypeMapper booktypeMapper;
 
-    //显示数据
+    //新增图书
     @PostMapping("/bookdata")
     public Result<?> bookdata(@RequestBody BookList bookList) {
         BookList res = bookMapper.selectOne(Wrappers.<BookList>lambdaQuery().eq(BookList::getBarcode, bookList.getBarcode()));
@@ -47,15 +48,51 @@ public class Bookcontroller {
         return Result.error("-1", "条码重复，不能添加！");
     }
 
+    //修改图书
     @PutMapping("/update")
     public Result<?> update(@RequestBody BookList bookList) {
-        if (bookList.getBarcode() == null && bookList.getBookType() == 0) {
+        BookList old = bookMapper.selectOne(Wrappers.<BookList>lambdaQuery().eq(BookList::getBookId, bookList.getBookId()));
+        BookList res = bookMapper.selectOne(Wrappers.<BookList>lambdaQuery().eq(BookList::getBarcode, bookList.getBarcode()));
+        if (bookList.getBarcode() != null && bookList.getBookType() != 0) {
+            if (null == res) {
+              if (old.getUserId()!=0){
+                  return Result.error("-1", "这本书已被借阅，条码不能被修改！");
+              }
+                bookMapper.updateById(bookList);
+                return Result.success();
+
+            } else if (res.getBarcode().equals(old.getBarcode())) {
+                bookMapper.updateById(bookList);
+                return Result.success();
+
+            } else {
+                return Result.error("-1", "当前条码已存在，不能修改！");
+            }
+
+        } else {
             return Result.error("-1", "条码和书本类型不能为空！");
         }
-        bookMapper.updateById(bookList);
-        return Result.success();
+
+
     }
 
+    //删除图书
+    @DeleteMapping("del/{id}")
+    public Result<?> del(@PathVariable long id) {
+        BookList bookList = bookMapper.selectOne(Wrappers.<BookList>lambdaQuery().eq(BookList::getBookId, id));
+        if (bookList.getUserId() == 0) {
+            bookMapper.deleteById(id);
+            return Result.success();
+        }
+        return Result.error("-1", "该书已被借阅，不能删除！");
+    }
+
+    //查询图书
+    @GetMapping("/pageshow")
+    public Result<?> finpage(@RequestParam Integer current, @RequestParam Integer pagesize, @RequestParam int status, @RequestParam int booktype, @RequestParam String search, @RequestParam String searchtype) {
+        Page<BookList> bookListPage = bookMapper.finpage(new Page<>(current, pagesize), status, booktype, search, searchtype);
+        return Result.success(bookListPage);
+    }
 
     //查询读者
     @GetMapping("/queryinfo")
@@ -127,30 +164,21 @@ public class Bookcontroller {
         return Result.error("-1", "条码不存在！");
     }
 
-    @DeleteMapping("del/{id}")
-    public Result<?> del(@PathVariable long id) {
-        bookMapper.deleteById(id);
-        return Result.success();
-    }
 
-    @GetMapping("/pageshow")
-    public Result<?> finpage(@RequestParam Integer current, @RequestParam Integer pagesize, @RequestParam int status, @RequestParam int booktype, @RequestParam String search, @RequestParam String searchtype) {
-        Page<BookList> bookListPage = bookMapper.finpage(new Page<>(current, pagesize), status, booktype, search, searchtype);
-        return Result.success(bookListPage);
-    }
     @CrossOrigin(origins = {"*", "null"})
     @GetMapping("/hotbook")
     public Result<?> hotbook() {
         List<BookList> bookLists = bookMapper.hotbook();
         return Result.success(bookLists);
     }
+
     //查看详情
     @GetMapping("/Detailbook")
     public Result<?> Detailbook(@RequestParam int id, @RequestParam String name) {
         User user = userMapper.selectOne(Wrappers.<User>lambdaQuery().eq(User::getName, name));//查询读者
         BookList bookLists = bookMapper.Detailbook(id);//查询图书
         Bookstype bookstype = booktypeMapper.selectOne(Wrappers.<Bookstype>lambdaQuery().eq(Bookstype::getId, bookLists.getBookType()));
-        Bindinfo bf = bindMapper.selectOne(Wrappers.<Bindinfo>lambdaQuery().eq(Bindinfo::getBarcode, bookLists.getBarcode()).eq(Bindinfo::getName,user.getName()));
+        Bindinfo bf = bindMapper.selectOne(Wrappers.<Bindinfo>lambdaQuery().eq(Bindinfo::getBarcode, bookLists.getBarcode()).eq(Bindinfo::getName, user.getName()));
         Bindinfo bindinfo = new Bindinfo();
         bindinfo.setName(user.getName());
         bindinfo.setNick(user.getNick());
@@ -166,7 +194,7 @@ public class Bookcontroller {
             bindinfo.setIsBind(1);
             bindMapper.insert(bindinfo);
         } else {
-           bf.setAccessCount(bf.getAccessCount()+1);
+            bf.setAccessCount(bf.getAccessCount() + 1);
 //            bindinfo.setId(bf.getId());
             bindMapper.updateById(bf);
         }

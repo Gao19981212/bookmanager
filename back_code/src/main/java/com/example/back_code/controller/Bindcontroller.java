@@ -52,7 +52,6 @@ public class Bindcontroller {
     @GetMapping("/recommend")
      public  Result<?> findpage(@RequestParam Integer current, @RequestParam Integer pagesize,@RequestParam String name){
          Page<Bindinfo> page=bindMapper.findpage(new Page<>(current, pagesize),name);
-
          return Result.success(page);
      }
 }
