@@ -19,14 +19,14 @@ const routes = [
       title: "检索图书",
     },
     component: () => import("../views/Readpage/Search.vue"),
-  },
-  {
-    path: '/Detailbook',
-    name: 'Detailbook',
-    meta: {
-      title: "图书详情",
-    },
-    component: () => import("../views/Readpage/Detailbook.vue"),
+    children: [{
+      path: '/Detailbook',
+      name: 'Detailbook',
+      meta: {
+        title: "图书详情",
+      },
+      component: () => import("../views/Readpage/Detailbook.vue"),
+    }]
   },
   {
     path: '/register',
@@ -53,6 +53,7 @@ const routes = [
       name: "1-3",
       meta: {
         title: "用户管理",
+        icon: "<el-icon><avatar /></el-icon>"         
       },
       component: () => import("../views/manager/Read.vue")
     },

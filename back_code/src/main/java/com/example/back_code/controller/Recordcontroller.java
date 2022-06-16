@@ -25,12 +25,13 @@ public class Recordcontroller {
     BookMapper bookMapper;
     @Autowired
     UserMapper userMapper;
+
     @GetMapping("/querypage")
     public Result<?> querypage(@RequestParam Integer current,
                                @RequestParam Integer pagesize,
-                               @RequestParam String search, @RequestParam String searchtype,@RequestParam String radio){
-        Page<Record> recordPage=recordMapper.querypage(new Page<>(current,pagesize),search,searchtype,radio);
-         return Result.success(recordPage);
+                               @RequestParam String search, @RequestParam String searchtype, @RequestParam String radio) {
+        Page<Record> recordPage = recordMapper.querypage(new Page<>(current, pagesize), search, searchtype, radio);
+        return Result.success(recordPage);
     }
 
      @GetMapping("/circulation")

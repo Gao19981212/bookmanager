@@ -195,7 +195,7 @@ import { markRaw } from "vue";
 export default {
   data() {
     return {
-      name: "",
+      name:localStorage.getItem("nick"),
       Search: Search,
       searchtxt: "",
       select: "",
@@ -265,6 +265,7 @@ export default {
     },
     //个人书架
     loadbind() {
+      
       this.$axios({
         method: "get",
         url: "/api/bindinfo/bookmark",
@@ -289,7 +290,7 @@ export default {
         method: "get",
         url: "/api/user/info",
         contentType: "application/json;charset=UTF-8",
-        params: {
+        data: {
           name: localStorage.getItem("name"),
         },
       })

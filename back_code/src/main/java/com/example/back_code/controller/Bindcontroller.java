@@ -49,9 +49,10 @@ public class Bindcontroller {
         List<Bindinfo> bindinfos = bindMapper.selectList(bindinfoQueryWrapper);
         return Result.success(bindinfos);
     }
+
     @GetMapping("/recommend")
-     public  Result<?> findpage(@RequestParam Integer current, @RequestParam Integer pagesize,@RequestParam String name){
-         Page<Bindinfo> page=bindMapper.findpage(new Page<>(current, pagesize),name);
-         return Result.success(page);
-     }
+    public Result<?> findpage(@RequestParam Integer current, @RequestParam Integer pagesize, @RequestParam String name) {
+        Page<Bindinfo> page = bindMapper.findpage(new Page<>(current, pagesize), name);
+        return Result.success(page);
+    }
 }

@@ -152,7 +152,7 @@ export default {
           for (var i = 0; i < res.data.data.length; i++) {
             this.boorank[i]["key"] = i + 1;
           }
-          console.log(this.boorank);
+          // console.log(this.boorank);
         })
         .catch((err) => {
           console.log(err);
